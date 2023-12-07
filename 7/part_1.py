@@ -21,8 +21,10 @@ def most_frequent_character(hand):
     char_count = Counter(hand)
     print(char_count)
     # Returns the largest item in an iterable - The key argument specifies a one-argument ordering function like that used for list.sort() 
+    # The .get method is a method of the Counter dictionary type.
+    ## In the context of dictionaries, the .get method takes a single argument (the key) and returns the corresponding value. 
+    ## However, when used as a key function for max, the max function implicitly calls .get on each key without passing any additional arguments.
     most_frequent = max(char_count, key=char_count.get)
-    most_frequent = max(char_count, key=char_count)
     frequency = char_count[most_frequent]
     if frequency == 3:
         print("")
