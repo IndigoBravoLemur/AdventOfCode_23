@@ -5,6 +5,7 @@ data = [line.split() for line in open('input.txt')]
 #data = [del a[0] for a in data]
 # This is effectively the same thing, returning a list with elements from position 1 onwards, ie, without [0]
 data = [a[1:] for a in data]
+# For part 2,requires joining all numbers into one string
 data[0] = "".join(data[0])
 data[1] = "".join(data[1])
 print(data)
