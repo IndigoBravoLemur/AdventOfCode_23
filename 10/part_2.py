@@ -91,7 +91,7 @@ def build_squeezeable_rows():
 # Build the cols which you can squeeze though by comparing characters on adjacent cols
 def build_squeezeable_cols():
     # Go through the pipe map column by column and check the current and next column for areas to squeeze through, excluding the last element in the array
-    # Imagine the first of the pair is on the right and second on the left
+    # Imagine the first of the pair is on the left and second on the right
     valid_col_pairs = (("|","|"),("|","L"),("|","F"),("J","|"),("J","L"),("J","F"),("7","|"),("7","L"),("7","F"))
     # While row index is less than pipe map length
     # for each row check the 0,1 indexes of chars etc etc and add element
@@ -114,8 +114,8 @@ def build_squeezeable_cols():
     # for each row, add element in the index of the current col
 build_squeezeable_rows()
 visualise_og()
-build_squeezeable_cols()
-visualise_og()
+#build_squeezeable_cols()
+#visualise_og()
 
 print("")   
 def make_new_map():
@@ -124,4 +124,4 @@ def make_new_map():
     # to print mapping overwriting existing line (using carriage return to put caret back at the beginning)
     # print(os.path.getsize(file_name)/1024+'KB / '+size+' KB downloaded!', end='\r')
 
-visualise_og()
+#visualise_og()
