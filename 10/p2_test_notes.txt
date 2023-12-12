@@ -1,0 +1,102 @@
+..........
+.S------7.
+.|F----7|.
+.||....||.
+.||....||.
+.|L-7F-J|.
+.|..||..|.
+.L--JL--J.
+..........
+
+
+# loop through each row
+# check r1, c0 vs r0,c0 -- .  .
+# check r1, c1 vs r0,c1 -- S  .
+# check r1, c2 vs r0,c1 -- -  .
+# keep checking, if it can be squeezed mark the index as a squeezed
+# so row 1 vs row 0 no problems, can move on
+
+# check r2, c0 vs r1,c0 -- .  .
+# check r2, c1 vs r1,c1 -- |  S
+# check r2, c2 vs r1,c1 -- F  -       <-- can be squeezed
+# check r2, c2 vs r1,c1 -- -  -     <
+# check r2, c2 vs r1,c1 -- -  -     <
+# check r2, c2 vs r1,c1 -- -  -     <
+# check r2, c2 vs r1,c1 -- -  -     <
+# check r2, c2 vs r1,c1 -- 7  -     <
+# check r2, c2 vs r1,c1 -- |  7     
+# check r2, c2 vs r1,c1 -- .  .
+if there is an index to be squeezed, add a row ie a list of the new chars
+        thislist.insert(1, "orange") -- pipe_map.insert(i-1,new_list)
+
+if one can be squeezed check mapping and output - combinations of chars ?
+    if | and (anything?) --> add | to corresponding index
+.............
+.S---------7.
+.|.........|.
+.|.F-----7.|.
+.|.|.....|.|.
+.|.|.....|.|.
+.|.L-7.F-J.|.
+.|...|.|...|.
+.L---J.L---J.
+.............
+
+
+ex2
+| - L J 7 F . S
+What defines a row-squeeze ? -- r1 = lower r2 == higher row --- comparing bottom to top
+        -   -   -   L   L   L   J   J   J 
+        F   7   -   F   7   -   F   7   -
+
+can fit though a pipe on any of the above, so add . to the array at the index
+if its not in the above and each not .'s use a pipe?
+
+.F----7F7F7F7F-7....
+.|....||||||||.|....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...
+
+original
+.F----7F7F7F7F-7....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...
+
+What defines a col-squeeze ? -- r1 = lower r2 == higher row --- comparing right to left
+        |   |
+        |   L
+        |   F
+        J   |
+        J   L
+        J   F
+        7   |
+        7   L
+        7   F
+
+can fit though a pipe on any of the above, so add . to the array at the index
+if its not in the above and each not .'s use a pipe?
+if theres at least one col squeeze (but there will always be at least one so dont need the if)
+for any that is not a col squeeze add a - , if its not .. otherwise add .
+
+col iter
+..F---------7.F-7.F-7.F-7.F---7........
+.|....||||||||.|....
+
+..F---------7.F-7.F-7.F-7.F---7........
+..|.........|.|.|.|.|.|.|.|...|........
+
+
