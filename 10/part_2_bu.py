@@ -59,7 +59,7 @@ print()
 # part 2
 pipe_map[start_pos[0]][start_pos[1]] = "F"
 
-def make_map():
+def visualise_og():      
     for col in pipe_map:
         for char in col:
             print(char, end="")
@@ -70,7 +70,7 @@ def make_map():
 def build_squeezeable_rows():
     # Go through the pipe map row by row and check the current and next row for areas to squeeze through, excluding the last element in the array [:-1]
     # Imagine the first of the pair is on the top row and second on the bottom row
-    valid_row_pairs = (("|","|"),("7","|"),("F","|"),("7","L"),("7","J"),("|","L"),("|","J"),("F","L"),("F","J"))
+    valid_row_pairs = (("-","F"),("-","7"),("-","-"),("L","F"),("L","7"),("L","-"),("J","F"),("J","7"),("J","-"))
     row_index = 0 
     while row_index < len(pipe_map[:-1]):
         new_row = []
@@ -79,12 +79,12 @@ def build_squeezeable_rows():
         for (cr_char, nr_char) in (zip(current_row, next_row)):
             if (cr_char, nr_char) in valid_row_pairs:
                 # If valid pair is found, add a "." as it can be squeezed through
-                new_row.append("|")
+                new_row.append(".")
             elif (cr_char, nr_char) == (".","."):
                 # If both chars are "." then add a "." to indicate an empty space
                 new_row.append(".")
             else:
-                new_row.append(".")
+                new_row.append("|")
         pipe_map.insert(row_index+1,new_row)
         row_index += 2
 
@@ -92,7 +92,7 @@ def build_squeezeable_rows():
 def build_squeezeable_cols():
     # Go through the pipe map column by column and check the current and next column for areas to squeeze through, excluding the last element in the array
     # Imagine the first of the pair is on the left and second on the right
-    valid_col_pairs = (("-","-"),("L","-"),("F","-"),("-","J"),("-","7"),("L","J"),("L","7"),("F","J"),("F","7"))
+    valid_col_pairs = (("|","|"),("|","L"),("|","F"),("J","|"),("J","L"),("J","F"),("7","|"),("7","L"),("7","F"))
     # While row index is less than pipe map length
     # for each row check the 0,1 indexes of chars etc etc and add element
     for row_index,row in enumerate(pipe_map):
@@ -101,41 +101,27 @@ def build_squeezeable_cols():
             current_col = row[col_index]
             next_col = row[col_index+1]
             if (current_col, next_col) in valid_col_pairs:
-                new_col_data.append("-")
+                new_col_data.append(".")
             elif (current_col, next_col) == (".","."):
                 # If both chars are "." then add a "." to indicate an empty space
                 new_col_data.append(".")
             else:
-                new_col_data.append(".")       
+                new_col_data.append("-")       
         #row=[item for pair in zip(row, new_col_data) for item in pair]
         pipe_map[row_index]=[item for pair in zip(row, new_col_data) for item in pair]
 
 
     # for each row, add element in the index of the current col
 build_squeezeable_rows()
-#make_map()
+visualise_og()
 build_squeezeable_cols()
-make_map()
+visualise_og()
 
-print("")
+print("")   
+def make_new_map():
+    print("making map")
+    # define a new mapping of chars ?
+    # to print mapping overwriting existing line (using carriage return to put caret back at the beginning)
+    # print(os.path.getsize(file_name)/1024+'KB / '+size+' KB downloaded!', end='\r')
 
-def count_invalid():
-    print()
-    # on edge positions if its a . then check the positions around, if its also a ., check the positions around , recursively
-    
-    if row > 0:
-    neighbors.append(grid[row - 1][col])
-
-    # Check position below
-    if row < len(grid) - 1:
-        neighbors.append(grid[row + 1][col])
-
-    # Check position to the left
-    if col > 0:
-        neighbors.append(grid[row][col - 1])
-
-    # Check position to the right
-    if col < len(grid[0]) - 1:
-        neighbors.append(grid[row][col + 1])
-
-    return neighbors
+#visualise_og()
