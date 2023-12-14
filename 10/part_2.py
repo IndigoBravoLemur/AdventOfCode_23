@@ -1,6 +1,8 @@
 import sys
+from itertools import zip_longest
+
 sys.setrecursionlimit(1000000)
-pipe_map = [[c for c in line.strip()] for line in open('p2_test2.txt')]
+pipe_map = [[c for c in line.strip()] for line in open('input.txt')]
 
 for i,l in enumerate(pipe_map):
     if "S" in l:
@@ -57,14 +59,16 @@ print("--------")
 print()
 
 # part 2
-pipe_map[start_pos[0]][start_pos[1]] = "F"
+pipe_map[start_pos[0]][start_pos[1]] = "7"
 
 def make_map():
+    sourceFile = open('demo.txt', 'w')
     for col in pipe_map:
         for char in col:
-            print(char, end="")
-        print()
+            print(char, end="", file = sourceFile)
+        print("",file = sourceFile)
     print()
+    sourceFile.close()
 
 # Build the rows which you can squeeze though by comparing characters on adjacent rows
 def build_squeezeable_rows():
@@ -106,36 +110,51 @@ def build_squeezeable_cols():
                 # If both chars are "." then add a "." to indicate an empty space
                 new_col_data.append(".")
             else:
-                new_col_data.append(".")       
-        #row=[item for pair in zip(row, new_col_data) for item in pair]
+                new_col_data.append(".")
+        #print("orinting")
+        #print(row)
+        #print(new_col_data)       
+        # For the given row, add in the new column data by creating a new row, which is the product of zipping the new row data and the old row together
+        ## i.e for each pair ("-","|") created by zipping the row and new column data, iterate over that pair (for item in pair) and return that item
         pipe_map[row_index]=[item for pair in zip(row, new_col_data) for item in pair]
-
-
-    # for each row, add element in the index of the current col
+        # Because the zipped lists are not of equal length and the order in which they are taken, one is left out at the end so im doing this
+        pipe_map[row_index].append(row[-1])
+#make_map()
+# for each row, add element in the index of the current col
 build_squeezeable_rows()
 #make_map()
 build_squeezeable_cols()
-make_map()
+#make_map()
 
 print("")
 
-def count_invalid():
-    print()
-    # on edge positions if its a . then check the positions around, if its also a ., check the positions around , recursively
-    
-    if row > 0:
-    neighbors.append(grid[row - 1][col])
+nr = 53
+nc = 99
 
-    # Check position below
-    if row < len(grid) - 1:
-        neighbors.append(grid[row + 1][col])
+def flood_fill(row, col):
+    if 0 <= row < len(pipe_map) and 0 <= col < len(pipe_map[0]) and pipe_map[row][col] == ".":
+        # Mark the current cell
+        pipe_map[row][col] = "*"
 
-    # Check position to the left
-    if col > 0:
-        neighbors.append(grid[row][col - 1])
+        # Check and fill neighbors
+        flood_fill(row - 1, col)  # above
+        flood_fill(row + 1, col)  # below
+        flood_fill(row, col - 1)  # left
+        flood_fill(row, col + 1)  # right
 
-    # Check position to the right
-    if col < len(grid[0]) - 1:
-        neighbors.append(grid[row][col + 1])
+flood_fill(nr,nc)
+make_map()
 
-    return neighbors
+# now, remove every other row.
+pipe_map = pipe_map[::2]
+for i,r in enumerate(pipe_map):
+    pipe_map[i]=r[::2]
+
+count = 0 
+for v in pipe_map:
+    for b in v:
+        if b == "*":
+            count += 1
+
+#make_map()
+print(count)
